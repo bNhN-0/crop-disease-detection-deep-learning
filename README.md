@@ -1,33 +1,55 @@
-# Crop Disease Detection With Deep Learning
+<h1 align="center">Crop Disease Classification with Transfer Learning and Grad-CAM</h1>
 
-## Overview
-
-This project focuses on crop leaf disease classification using deep learning and transfer learning.
-
-The goal is to classify a leaf image into its crop type and disease condition. The project compares two pretrained CNN architectures:
-
-- `MobileNetV2`
-- `EfficientNetB0`
-
-The final selected model is `EfficientNetB0`, which is used for prediction through a lightweight Streamlit app.
-
-This project was built to practice and showcase:
-
-- deep learning model training
-- transfer learning
-- model comparison
-- validation-based evaluation
-- classification reports
-- confusion matrix analysis
-- sample prediction visualization
-- Grad-CAM explainability
-- lightweight MLOps-style evaluation and prediction scripts
+<p align="center">
+  Deep learning computer vision system for crop leaf disease recognition using transfer learning, CNN model comparison, validation-based evaluation, and Grad-CAM visualization.
+</p>
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.13+-blue" />
+  <img src="https://img.shields.io/badge/TensorFlow-Deep%20Learning-orange" />
+  <img src="https://img.shields.io/badge/Transfer%20Learning-CNN-green" />
+  <img src="https://img.shields.io/badge/Interface-Streamlit-red" />
+</p>
 
 ---
 
-## Problem
+## Overview
 
-The model takes a crop leaf image and predicts the crop and disease condition.
+This project builds an image classification pipeline for detecting crop leaf disease categories from visible leaf symptoms.
+
+The workflow includes:
+
+- Dataset preparation from a PlantVillage crop disease dataset
+- Transfer learning with pretrained CNN architectures
+- MobileNetV2 lightweight baseline
+- EfficientNetB0 high-performance comparison model
+- Validation-based model evaluation
+- Classification report and confusion matrix analysis
+- Sample prediction visualization
+- Grad-CAM visualization
+- Config-based evaluation and prediction scripts
+- Streamlit deployment interface
+
+The final selected model is **EfficientNetB0**, based on validation performance.
+
+---
+
+## Technical Focus
+
+- Transfer learning for image classification
+- CNN architecture comparison
+- Validation-based model selection
+- Deep learning evaluation workflow
+- Grad-CAM visualization
+- Single-image inference pipeline
+- Lightweight deployment with Streamlit
+
+---
+
+## Problem Statement
+
+Crop diseases can affect plant health, yield, and farm productivity. Visual symptoms on leaves are commonly used as early indicators of disease conditions.
+
+This project focuses on supervised image classification, where the model receives a crop leaf image and predicts a combined crop-disease class.
 
 Example class label:
 
@@ -55,19 +77,16 @@ Crop: Tomato
 Condition: Late blight
 ```
 
-This is an image classification project. The model predicts based on visible leaf symptoms and should not be treated as a final agricultural diagnosis tool.
-
 ---
 
 ## Dataset
 
 The dataset used in this project is the **New Plant Diseases Dataset** from Kaggle.
 
-Dataset source:
-
 ```text
-Kaggle: New Plant Diseases Dataset
+Dataset: New Plant Diseases Dataset
 Author: vipoooool
+Format: PlantVillage image classification dataset
 ```
 
 Expected local dataset path:
@@ -85,7 +104,7 @@ data/new_plant_diseases_dataset/
 └── test/
 ```
 
-The dataset contains crop leaf images grouped by crop and disease condition classes.
+The dataset contains crop leaf images organized by class folders. Each class represents a crop and its disease condition.
 
 Example classes:
 
@@ -102,17 +121,28 @@ Tomato___healthy
 
 ## Dataset Note
 
-The dataset is kept local and is not uploaded to GitHub.
+The dataset is stored locally and is not uploaded to GitHub.
 
-The provided `test/` folder in this dataset version is a small flat sample folder, not a proper 38-class labeled test split. Because of that, model comparison and final evaluation use the labeled `valid/` split.
+The provided `test/` folder in this dataset version is a small flat sample folder, not a complete labeled 38-class test split. Because of this, final model comparison and evaluation are performed using the labeled `valid/` split.
 
 ---
 
-## Model Approaches
+## Model Architecture
+
+Two pretrained CNN architectures are evaluated for transfer learning:
+
+```text
+1. MobileNetV2
+2. EfficientNetB0
+```
+
+Both models are trained for 38 crop disease classes.
+
+---
 
 ## MobileNetV2
 
-MobileNetV2 is used as the lightweight transfer learning baseline.
+MobileNetV2 is used as the lightweight baseline model.
 
 Model file:
 
@@ -120,19 +150,19 @@ Model file:
 models/crop_disease_mobilenetv2_1.keras
 ```
 
-MobileNetV2 requires its standard preprocessing:
+MobileNetV2 requires its own preprocessing function:
 
-```text
+```python
 mobilenet_v2.preprocess_input
 ```
 
-MobileNetV2 is useful as a fast and lightweight baseline model.
+This preprocessing step is required during both training and evaluation.
 
 ---
 
 ## EfficientNetB0
 
-EfficientNetB0 is used as the stronger transfer learning model.
+EfficientNetB0 is used as the stronger comparison model.
 
 Model file:
 
@@ -146,7 +176,34 @@ Best model copy:
 models/best_model.keras
 ```
 
-EfficientNetB0 is used as the final selected model because it achieved the strongest validation performance.
+In this project setup, EfficientNetB0 uses raw image tensors loaded from `image_dataset_from_directory` without applying MobileNetV2 preprocessing.
+
+EfficientNetB0 achieved the strongest validation performance and is used as the final selected model.
+
+---
+
+## Preprocessing Note
+
+Different pretrained models require different preprocessing.
+
+MobileNetV2 evaluation uses:
+
+```python
+mobilenet_valid_ds = raw_valid_ds.map(
+    lambda images, labels: (
+        mobilenet_v2.preprocess_input(tf.cast(images, tf.float32)),
+        labels
+    )
+).prefetch(tf.data.AUTOTUNE)
+```
+
+EfficientNetB0 evaluation uses:
+
+```python
+efficientnet_valid_ds = raw_valid_ds.prefetch(tf.data.AUTOTUNE)
+```
+
+MobileNetV2 preprocessing should not be applied to EfficientNetB0 in this project setup.
 
 ---
 
@@ -157,13 +214,13 @@ EfficientNetB0 is used as the final selected model because it achieved the stron
 | MobileNetV2 | ~95–96% | ~0.12 |
 | EfficientNetB0 | ~97% | ~0.09 |
 
-EfficientNetB0 achieved the best validation performance and is used as the final model.
+EfficientNetB0 achieved the best validation performance and is selected as the final model.
 
 ---
 
 ## Model Comparison
 
-The project compares MobileNetV2 and EfficientNetB0 on the same labeled validation split.
+The two models are compared on the same labeled validation split.
 
 ![Model Comparison Accuracy](results/figures/model_comparison_accuracy.png)
 
@@ -173,7 +230,7 @@ The project compares MobileNetV2 and EfficientNetB0 on the same labeled validati
 
 ## Training Curves
 
-Training curves are generated when the optional training cells are run.
+Training curves are generated from the training history of each model.
 
 ### MobileNetV2
 
@@ -191,13 +248,13 @@ Training curves are generated when the optional training cells are run.
 
 ## Evaluation
 
-The best model is evaluated using:
+The final model is evaluated using:
 
-- validation accuracy
-- validation loss
-- classification report
-- confusion matrix
-- sample predictions
+- Validation accuracy
+- Validation loss
+- Classification report
+- Confusion matrix
+- Sample prediction visualization
 
 ### Confusion Matrix
 
@@ -209,11 +266,13 @@ The best model is evaluated using:
 
 ---
 
-## Explainability
+## Grad-CAM Visualization
 
-Grad-CAM is used to visualize which image regions influenced the model prediction.
+Grad-CAM is used to highlight image regions that influenced the model prediction.
 
-This helps inspect whether the model focuses on leaf disease regions instead of irrelevant background areas.
+This helps inspect whether the model is focusing on leaf regions instead of irrelevant background areas.
+
+Grad-CAM does not prove that a prediction is correct. It provides visual support for understanding model attention.
 
 ![EfficientNetB0 Grad-CAM Examples](results/figures/efficientnetb0_gradcam_examples.png)
 
@@ -221,9 +280,9 @@ This helps inspect whether the model focuses on leaf disease regions instead of 
 
 ## Notebook Workflow
 
-The main deep learning workflow is notebook-based.
+The main deep learning workflow is organized into notebooks.
 
-Run the notebooks in this order:
+Run order:
 
 ```text
 1. notebooks/01_mobilenetv2.ipynb
@@ -234,23 +293,22 @@ Run the notebooks in this order:
 The notebooks cover:
 
 ```text
-dataset loading
-model training
-model evaluation
-model comparison
-classification report
-confusion matrix
-sample predictions
-Grad-CAM explainability
+Setup
+Load Dataset
+Build Model
+Optional Training
+Evaluate
+Visuals
+Save Results
 ```
 
-Training cells can be rerun, but saved models can also be loaded directly.
+The notebook workflow separates training, evaluation, and comparison into reproducible stages.
 
 ---
 
-## Lightweight MLOps Layer
+## Evaluation and Inference Pipeline
 
-The project includes simple MLOps-style files for reproducible evaluation and prediction.
+The project includes a lightweight structure for repeatable evaluation, prediction, and app usage.
 
 ```text
 configs/
@@ -266,9 +324,7 @@ app/
 └── streamlit_app.py
 ```
 
-## Configs
-
-The config files store:
+The configuration files store model and dataset settings such as:
 
 ```text
 model name
@@ -276,7 +332,6 @@ model path
 dataset path
 image size
 batch size
-seed
 class names path
 preprocessing requirement
 ```
@@ -291,7 +346,7 @@ Run evaluation from the project root:
 python src/evaluate.py --config configs/efficientnetb0_config.json
 ```
 
-This evaluates the selected model on the labeled validation split and saves metrics.
+This evaluates the selected model on the validation split and exports evaluation metrics.
 
 ---
 
@@ -303,7 +358,7 @@ Run single-image prediction:
 python src/predict.py --image path/to/leaf.jpg --model models/best_model.keras --class-names results/class_names.json
 ```
 
-Output includes:
+Prediction output includes:
 
 ```text
 crop
@@ -316,7 +371,7 @@ top 3 predictions
 
 ## Streamlit Demo
 
-A simple Streamlit app is included for image upload and prediction.
+A lightweight Streamlit app is included for image upload and prediction.
 
 Run:
 
@@ -324,7 +379,7 @@ Run:
 streamlit run app/streamlit_app.py
 ```
 
-The app shows:
+The interface displays:
 
 ```text
 uploaded image
@@ -333,13 +388,21 @@ predicted condition
 confidence score
 confidence level
 top 3 predictions
-basic limitation note
+limitation note
 ```
 
-The app uses:
+The app uses the final selected model:
 
 ```text
 models/best_model.keras
+```
+
+Since the selected model is EfficientNetB0, the Streamlit app does not apply MobileNetV2 preprocessing.
+
+Limitation note shown in the app:
+
+```text
+This model predicts crop disease class from visible leaf symptoms. It is not a final agricultural diagnosis.
 ```
 
 ---
@@ -348,22 +411,21 @@ models/best_model.keras
 
 Saved outputs are stored under `results/` and `results/figures/`.
 
-Key outputs:
+Key output files:
 
 ```text
-results/best_model_classification_report.csv
 results/class_names.json
 results/model_comparison.json
 results/model_comparison_table.csv
+results/model_registry.json
 results/best_model_metrics.json
 results/efficientnetb0_classification_report.csv
 results/efficientnetb0_metrics.json
 results/mobilenetv2_metrics.json
 results/evaluation_metrics.json
-
 ```
 
-Figures:
+Figure outputs:
 
 ```text
 results/figures/model_comparison_accuracy.png
@@ -401,6 +463,7 @@ crop-disease-detection-deep-learning/
 │   └── streamlit_app.py
 │
 ├── models/
+│   ├── README.md
 │   ├── crop_disease_mobilenetv2_1.keras
 │   ├── crop_disease_efficientnetb0_2.keras
 │   └── best_model.keras
@@ -412,23 +475,48 @@ crop-disease-detection-deep-learning/
 │   ├── model_registry.json
 │   ├── best_model_metrics.json
 │   ├── efficientnetb0_classification_report.csv
+│   ├── experiments/
 │   └── figures/
 │
 ├── data/
+│   ├── README.md
 │   └── new_plant_diseases_dataset/
 │
 ├── requirements.txt
-└── README.md
+├── README.md
+└── .gitignore
 ```
+
+---
+
+## Configuration
+
+Model and dataset settings are stored in `configs/`.
+
+Main configuration files:
+
+```text
+configs/mobilenetv2_config.json
+configs/efficientnetb0_config.json
+```
+
+The saved class order is stored in:
+
+```text
+results/class_names.json
+```
+
+This keeps prediction and evaluation consistent with the trained model.
 
 ---
 
 ## Limitations
 
-- The model was trained on a PlantVillage-style dataset with mostly clean leaf images.
-- Performance may drop on real-world farm images with blur, shadows, multiple leaves, or complex backgrounds.
-- The model predicts based on visible leaf symptoms only.
+- The model is trained on a PlantVillage-style dataset with mostly clean leaf images.
+- Performance may decrease on real farm images with blur, shadows, multiple leaves, occlusion, or complex backgrounds.
+- Predictions are based only on visible leaf symptoms in the input image.
 - The output should not be treated as a final agricultural diagnosis.
-- The provided `test/` folder was not used for final evaluation because it is not a full labeled 38-class split.
+- The provided `test/` folder is not used for final evaluation because it is not a complete labeled 38-class split.
+- Grad-CAM is used for visualization, not as proof of prediction correctness.
 
 ---
