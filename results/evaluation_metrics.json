@@ -1,0 +1,12 @@
+{
+  "model": "EfficientNetB0",
+  "model_path": "models/best_model.keras",
+  "validation_accuracy": 0.9663669466972351,
+  "validation_loss": 0.11347274482250214,
+  "evaluation_split": "valid folder",
+  "classification_report_csv": "results/efficientnetb0_classification_report.csv",
+  "confusion_matrix_figure": "results/figures/efficientnetb0_confusion_matrix.png",
+  "sample_predictions_figure": "results/figures/efficientnetb0_sample_predictions.png",
+  "gradcam_figure": "results/figures/efficientnetb0_gradcam_examples.png",
+  "note": "Evaluation uses the labeled valid split. The original test folder is not used because it is a tiny flat sample set."
+}

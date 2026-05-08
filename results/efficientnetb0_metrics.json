@@ -1,0 +1,7 @@
+{
+  "model": "EfficientNetB0",
+  "validation_accuracy": 0.9663669466972351,
+  "validation_loss": 0.11347275227308273,
+  "model_path": "C:\\Users\\banya\\crop-disease-detection-deep-learning\\models\\crop_disease_efficientnetb0.keras",
+  "evaluation_split": "C:\\Users\\banya\\crop-disease-detection-deep-learning\\data\\new_plant_diseases_dataset\\valid"
+}

@@ -1,0 +1,9 @@
+{
+  "model": "EfficientNetB0",
+  "model_path": "models/best_model.keras",
+  "validation_accuracy": 0.9702367186546326,
+  "validation_loss": 0.09249649196863174,
+  "evaluation_split": "valid",
+  "num_classes": 38,
+  "class_names_path": "results/class_names.json"
+}

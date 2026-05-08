@@ -1,0 +1,18 @@
+{
+  "models": [
+    {
+      "model": "EfficientNetB0",
+      "model_path": "C:\\Users\\banya\\crop-disease-detection-deep-learning\\models\\crop_disease_efficientnetb0_2.keras",
+      "validation_accuracy": 0.9702367186546326,
+      "validation_loss": 0.09249648451805115
+    },
+    {
+      "model": "MobileNetV2",
+      "model_path": "C:\\Users\\banya\\crop-disease-detection-deep-learning\\models\\crop_disease_mobilenetv2_1.keras",
+      "validation_accuracy": 0.9596517086029053,
+      "validation_loss": 0.12344176322221756
+    }
+  ],
+  "best_model": "EfficientNetB0",
+  "best_model_path": "C:\\Users\\banya\\crop-disease-detection-deep-learning\\models\\crop_disease_efficientnetb0_2.keras"
+}

@@ -1,0 +1,7 @@
+{
+  "model": "MobileNetV2",
+  "validation_accuracy": 0.9596517086029053,
+  "validation_loss": 0.12344176322221756,
+  "model_path": "C:\\Users\\banya\\crop-disease-detection-deep-learning\\models\\crop_disease_mobilenetv2_1.keras",
+  "evaluation_split": "C:\\Users\\banya\\crop-disease-detection-deep-learning\\data\\new_plant_diseases_dataset\\valid"
+}

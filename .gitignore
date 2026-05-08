@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+venv/
+.env/
+data/new_plant_diseases_dataset/
+*.zip
+models/*.keras
+models/*.h5
+.DS_Store
+Thumbs.db

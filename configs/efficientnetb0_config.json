@@ -1,0 +1,14 @@
+{
+  "model_name": "EfficientNetB0",
+  "image_size": [224, 224],
+  "batch_size": 32,
+  "seed": 30,
+  "num_classes": 38,
+  "dataset_path": "data/new_plant_diseases_dataset",
+  "evaluation_split": "valid",
+  "source_model_path": "models/crop_disease_efficientnetb0_2.keras",
+  "best_model_path": "models/best_model.keras",
+  "class_names_path": "results/class_names.json",
+  "requires_preprocessing": false,
+  "preprocessing": "none"
+}
