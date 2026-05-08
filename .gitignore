@@ -6,6 +6,7 @@ venv/
 data/new_plant_diseases_dataset/
 *.zip
 models/*.keras
+!models/best_model.keras
 models/*.h5
 .DS_Store
 Thumbs.db
