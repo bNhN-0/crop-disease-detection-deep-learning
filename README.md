@@ -45,9 +45,27 @@ The final selected model is **EfficientNetB0**, based on validation performance.
 
 ---
 
-## Problem Statement
+## Classification Target
 
-Crop diseases can affect plant health, yield, and farm productivity. Visual symptoms on leaves are commonly used as early indicators of disease conditions.
+Input:
+
+```text
+crop leaf image
+```
+Output:
+
+```text
+crop-disease class
+```
+
+Example labels:
+
+```text
+Apple___Apple_scab → Apple / Apple scab
+Tomato___Late_blight → Tomato / Late blight
+Tomato___healthy → Tomato / healthy
+```
+
 
 This project focuses on supervised image classification, where the model receives a crop leaf image and predicts a combined crop-disease class.
 
@@ -368,12 +386,17 @@ top 3 predictions
 ```
 
 ---
-
 ## Streamlit Demo
 
-A lightweight Streamlit app is included for image upload and prediction.
+The project includes a deployed Streamlit interface for image upload and prediction.
 
-Run:
+Live demo:
+
+```text
+https://crop-disease-detection-deep-learning-zz.streamlit.app/
+```
+
+Run locally:
 
 ```bash
 streamlit run app/streamlit_app.py
@@ -388,7 +411,6 @@ predicted condition
 confidence score
 confidence level
 top 3 predictions
-limitation note
 ```
 
 The app uses the final selected model:
@@ -402,11 +424,8 @@ Since the selected model is EfficientNetB0, the Streamlit app does not apply Mob
 Limitation note shown in the app:
 
 ```text
-This model predicts crop disease class from visible leaf symptoms. It is not a final agricultural diagnosis.
+This model predicts crop disease class from visible leaf symptoms.
 ```
-
----
-
 ## Outputs
 
 Saved outputs are stored under `results/` and `results/figures/`.
