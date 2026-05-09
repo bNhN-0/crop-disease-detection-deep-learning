@@ -30,13 +30,17 @@ def ensure_best_model(config: dict[str, Any]) -> str:
     if not os.path.isabs(best_model_path):
         best_model_path = os.path.join(project_root, best_model_path)
 
+    if os.path.exists(best_model_path):
+        return best_model_path
+
     if not os.path.exists(source_model_path):
-        raise FileNotFoundError(source_model_path)
+        raise FileNotFoundError(
+            f"Missing model file. Checked '{best_model_path}' and '{source_model_path}'."
+        )
 
     os.makedirs(os.path.dirname(best_model_path), exist_ok=True)
 
-    if not os.path.exists(best_model_path):
-        shutil.copyfile(source_model_path, best_model_path)
+    shutil.copyfile(source_model_path, best_model_path)
 
     return best_model_path
 
