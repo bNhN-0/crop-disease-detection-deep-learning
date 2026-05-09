@@ -1,9 +1,10 @@
 {
-  "model": "EfficientNetB0",
-  "model_path": "models/best_model.keras",
-  "validation_accuracy": 0.9702367186546326,
-  "validation_loss": 0.09249649196863174,
-  "evaluation_split": "valid",
-  "num_classes": 38,
-  "class_names_path": "results/class_names.json"
+    "best_model": "EfficientNetB0",
+    "model_path": "c:\\Users\\banya\\OneDrive\\Documents\\GitHub\\crop-disease-detection-deep-learning\\models\\crop_disease_efficientnetb0_2.keras",
+    "selection_split": "valid folder",
+    "validation_accuracy": 0.9702367186546326,
+    "validation_loss": 0.09249648451805115,
+    "num_classes": 38,
+    "evaluation_split": "valid folder",
+    "demo_split": "test folder"
 }

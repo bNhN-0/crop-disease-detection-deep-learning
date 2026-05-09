@@ -24,7 +24,7 @@ The workflow includes:
 - EfficientNetB0 high-performance comparison model
 - Validation-based model evaluation
 - Classification report and confusion matrix analysis
-- Sample prediction visualization
+- Sample prediction visualization on unlabeled test images
 - Grad-CAM visualization
 - Config-based evaluation and prediction scripts
 - Streamlit deployment interface
@@ -141,7 +141,7 @@ Tomato___healthy
 
 The dataset is stored locally and is not uploaded to GitHub.
 
-The provided `test/` folder in this dataset version is a small flat sample folder, not a complete labeled 38-class test split. Because of this, final model comparison and evaluation are performed using the labeled `valid/` split.
+The dataset provides labeled `train/` and `valid/` splits, while `test/` contains unlabeled images used for prediction examples.
 
 ---
 
@@ -268,19 +268,19 @@ Training curves are generated from the training history of each model.
 
 The final model is evaluated using:
 
-- Validation accuracy
-- Validation loss
+- Accuracy
+- Loss
 - Classification report
 - Confusion matrix
-- Sample prediction visualization
+-Sample prediction visualization on unlabeled test images
 
 ### Confusion Matrix
 
-![EfficientNetB0 Confusion Matrix](results/figures/efficientnetb0_confusion_matrix.png)
+![EfficientNetB0 Confusion Matrix](results/figures/best_model_confusion_matrix.png)
 
 ### Sample Predictions
 
-![EfficientNetB0 Sample Predictions](results/figures/efficientnetb0_sample_predictions.png)
+![EfficientNetB0 Sample Predictions](results/figures/best_model_sample_predictions.png)
 
 ---
 
@@ -292,7 +292,7 @@ This helps inspect whether the model is focusing on leaf regions instead of irre
 
 Grad-CAM does not prove that a prediction is correct. It provides visual support for understanding model attention.
 
-![EfficientNetB0 Grad-CAM Examples](results/figures/efficientnetb0_gradcam_examples.png)
+![EfficientNetB0 Grad-CAM Examples](results/figures/best_model_gradcam_examples.png)
 
 ---
 
@@ -314,9 +314,10 @@ The notebooks cover:
 Setup
 Load Dataset
 Build Model
-Optional Training
-Evaluate
-Visuals
+Training
+Compare Models
+Generate Evaluation Outputs
+Visualize Predictions and Grad-CAM
 Save Results
 ```
 
@@ -438,7 +439,7 @@ results/model_comparison.json
 results/model_comparison_table.csv
 results/model_registry.json
 results/best_model_metrics.json
-results/efficientnetb0_classification_report.csv
+results/best_model_classification_report.csv
 results/efficientnetb0_metrics.json
 results/mobilenetv2_metrics.json
 results/evaluation_metrics.json
@@ -453,9 +454,9 @@ results/figures/mobilenetv2_accuracy_curve.png
 results/figures/mobilenetv2_loss_curve.png
 results/figures/efficientnetb0_accuracy_curve.png
 results/figures/efficientnetb0_loss_curve.png
-results/figures/efficientnetb0_confusion_matrix.png
-results/figures/efficientnetb0_sample_predictions.png
-results/figures/efficientnetb0_gradcam_examples.png
+results/figures/best_model_confusion_matrix.png
+results/figures/best_model_sample_predictions.png
+results/figures/best_model_gradcam_examples.png
 ```
 
 ---
@@ -535,7 +536,8 @@ This keeps prediction and evaluation consistent with the trained model.
 - Performance may decrease on real farm images with blur, shadows, multiple leaves, occlusion, or complex backgrounds.
 - Predictions are based only on visible leaf symptoms in the input image.
 - The output should not be treated as a final agricultural diagnosis.
-- The provided `test/` folder is not used for final evaluation because it is not a complete labeled 38-class split.
+- The model is trained and evaluated with the labeled dataset splits provided in this project version.
+- The `test/` folder is used for qualitative sample predictions and Grad-CAM visualization.
 - Grad-CAM is used for visualization, not as proof of prediction correctness.
 
 ---
